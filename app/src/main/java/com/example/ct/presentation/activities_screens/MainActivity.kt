@@ -1,9 +1,10 @@
 package com.example.ct.presentation.activities_screens
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
@@ -14,13 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,16 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.ct.R
 import com.example.ct.presentation.activities_screens.ui.theme.CTTheme
+import java.util.Locale
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +49,16 @@ class MainActivity : ComponentActivity() {
 //            this.window.navigationBarColor = Color.WHITE
             CTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    val uri: String = "geo:10,10"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     val navController = rememberNavController()
                     val categoryState = remember { mutableStateOf(-1) }
-                    Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                    val mapsState = remember { mutableStateOf(false) }
+                    if (mapsState.value) {
+                        startActivity(intent)
+                    }
+                    Box(modifier = Modifier
+                        .padding(bottom = innerPadding.calculateBottomPadding())
                         .background(color = Color(0xFFF7F7F9))
                         .padding(top = innerPadding.calculateTopPadding())) {
                         NavHost(
@@ -65,7 +68,8 @@ class MainActivity : ComponentActivity() {
                             composable("MainScreen") {
                                 Main(
                                     navController = navController,
-                                    categoryState = categoryState
+                                    categoryState = categoryState,
+                                    mapsState = mapsState
                                 )
                             }
                             composable("PopularScreen") {
@@ -80,7 +84,9 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        Box(modifier = Modifier.fillMaxWidth().align(alignment = Alignment.BottomCenter)) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .align(alignment = Alignment.BottomCenter)) {
                             Image(
                                 painter = painterResource(R.drawable.vector_1789),
                                 contentDescription = null,

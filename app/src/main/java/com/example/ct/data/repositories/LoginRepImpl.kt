@@ -11,6 +11,5 @@ class LoginRepImpl(private val supabaseClient: SupabaseClient): LoginRep  {
             email = _email
             password = _password
         }
-    // rtgtr
     }
 }

@@ -1,10 +1,13 @@
 package com.example.ct.presentation.activities_screens
 
+import android.app.Dialog
 import android.util.Patterns
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -34,12 +38,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.ct.R
 import com.example.ct.ui.theme.CTTheme
 
 @Composable
 fun ForgotPass() {
     val emailState = remember { mutableStateOf("") }
+    val dialogState = remember { mutableStateOf(false) }
     val check = Patterns.EMAIL_ADDRESS.matcher(emailState.value).matches()
     Column(
         modifier = Modifier
@@ -58,7 +64,7 @@ fun ForgotPass() {
             )
             Spacer(Modifier.height(40.dp))
             Text(
-                text = "Забыл Пароль",
+                text = stringResource(R.string.forgot_password),
                 fontWeight = FontWeight.W400,
                 fontSize = 32.sp
             )
@@ -85,7 +91,7 @@ fun ForgotPass() {
                     unfocusedBorderColor = Color(0xFFF5F5F9),
                 ),
                 shape = RoundedCornerShape(10.dp),
-                label = { Text(text = "xyz@gmail.com", color = Color(0xFF707B81)) },
+                placeholder = { Text(text = "xyz@gmail.com", color = Color(0xFF707B81)) },
                 modifier = Modifier
                     .fillMaxWidth(),
                 singleLine = true
@@ -93,7 +99,7 @@ fun ForgotPass() {
             Spacer(Modifier.height(30.dp))
             Button(
                 onClick = {
-//                    loginViewModel.signIn(email = emailState.value, password = passState.value)
+                    dialogState.value = true
                 },
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(13.dp))
@@ -128,6 +134,18 @@ fun ForgotPass() {
                 )
             }
             Spacer(Modifier.height(30.dp))
+        }
+    }
+    if (dialogState.value) {
+        Dialog(onDismissRequest = { dialogState.value = false }) {
+            Box(
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(200.dp)
+                    .background(Color.White)
+            ) {
+                Text(text = "123")
+            }
         }
     }
 }

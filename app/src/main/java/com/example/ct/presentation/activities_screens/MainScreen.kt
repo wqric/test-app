@@ -1,5 +1,6 @@
 package com.example.ct.presentation.activities_screens
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,7 +58,8 @@ import com.example.ct.ui.theme.CTTheme
 fun Main(
     modifier: Modifier = Modifier,
     navController: NavController,
-    categoryState: MutableState<Int>
+    categoryState: MutableState<Int>,
+    mapsState: MutableState<Boolean>
 ) {
     val searchState = remember { mutableStateOf( "") }
     Box(modifier = modifier.fillMaxSize()) {
@@ -236,7 +238,9 @@ fun Main(
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Акции")
                 Spacer(Modifier.weight(1f))
-                Text(text = "Все", color = Color(0xFF48B2E7))
+                Text(text = "Все", color = Color(0xFF48B2E7), modifier = Modifier.clickable {
+                    mapsState.value = true
+                })
             }
             Spacer(Modifier.height(30.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

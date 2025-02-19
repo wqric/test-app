@@ -39,5 +39,4 @@ val mainModule = module {
             //install other modules
         }
     }
-
 }
