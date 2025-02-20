@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,13 +28,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ct.R
 import com.example.ct.presentation.activities_screens.ui.theme.CTTheme
-import java.util.Locale
+
 
 
 class MainActivity : ComponentActivity() {
@@ -72,7 +75,11 @@ class MainActivity : ComponentActivity() {
                                     mapsState = mapsState
                                 )
                             }
-                            composable("PopularScreen") {
+                            composable("PopularScreen", enterTransition = {
+                                slideIn(initialOffset = {
+                                    IntOffset(-it.width, 0)
+                                })
+                            }, exitTransition = { slideOut { IntOffset(-it.width, 0) } }) {
                                 Popular(
                                     navController = navController
                                 )
