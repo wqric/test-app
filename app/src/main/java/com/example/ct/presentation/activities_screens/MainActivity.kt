@@ -121,10 +121,8 @@ class MainActivity : ComponentActivity() {
 
                                     )
                             }
-
                         }
                     }
-
                 }
             }
         }
